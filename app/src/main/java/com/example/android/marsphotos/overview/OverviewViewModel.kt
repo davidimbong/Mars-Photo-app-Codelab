@@ -1,12 +1,19 @@
 package com.example.android.marsphotos.overview
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.marsphotos.network.MarsApi
+//import com.example.android.marsphotos.network.MarsApi
+import com.example.android.marsphotos.network.MarsApiService
 import com.example.android.marsphotos.network.MarsPhoto
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 /**
  * The [ViewModel] that is attached to the [OverviewFragment].
@@ -36,12 +43,18 @@ class OverviewViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = MarsApiStatus.LOADING
             try {
-                _photos.value = MarsApi.retrofitService.getPhotos()
+                withContext(Dispatchers.IO){
+                    _photos.postValue(MarsApiService().parse())
+                }
                 _status.value = MarsApiStatus.DONE
+
             } catch (e: Exception) {
+                Log.d("ASD", "$e Coroutine Error")
+                e.printStackTrace()
                 _status.value = MarsApiStatus.ERROR
                 _photos.value = listOf()
             }
         }
     }
+
 }

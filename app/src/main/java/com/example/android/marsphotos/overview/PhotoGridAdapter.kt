@@ -2,7 +2,6 @@ package com.example.android.marsphotos.overview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.leanback.widget.DiffCallback
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -22,17 +21,15 @@ class PhotoGridAdapter : ListAdapter<MarsPhoto,
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoGridAdapter.MarsPhotoViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarsPhotoViewHolder {
         return MarsPhotoViewHolder(GridViewItemBinding.inflate(
             LayoutInflater.from(parent.context)))
     }
 
-    override fun onBindViewHolder(holder: PhotoGridAdapter.MarsPhotoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MarsPhotoViewHolder, position: Int) {
         val marsPhoto = getItem(position)
         holder.bind(marsPhoto)
     }
-
-
 
     class MarsPhotoViewHolder(private var binding:
                               GridViewItemBinding
